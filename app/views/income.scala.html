@@ -1,0 +1,73 @@
+@(income: Double, incomeSource: String)(implicit request: MessagesRequestHeader, flash: Flash)
+
+@main("Income") {
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Income</title>
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/income.css")">
+        <!-- Link the dashboard CSS -->
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/dashboard.css")">
+    </head>
+    <body>
+        <!-- Navigation bar from dashboard -->
+        <nav>
+            <div id="burger-menu">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <div id="search-wrapper">
+                <input type="text" placeholder="Search...">
+                <img src="@routes.Assets.versioned("images/search.png")" alt="search.png">
+            </div>
+            <div id="date-section">
+                <p id="current-date"></p>
+            </div>
+            <div id="logout-button">
+                <a href="@routes.Login.logout()">
+                    <button>Logout</button>
+                </a>
+            </div>
+        </nav>
+
+        <div id="sidebar">
+            <div class="breadcrumb">
+                <p>Dashboard > Income</p>
+            </div>
+            <ul>
+                <!-- Existing menu items -->
+                <li><a href="dashboard"><img src="@routes.Assets.versioned("images/home.png.jpg")" alt="Dashboard" class="nav-icon"> Dashboard</a></li>
+                <li><a href="expenses"><img src="@routes.Assets.versioned("images/expenses.png")" alt="Expenses" class="nav-icon"> Expenses</a></li>
+                <li><a href="income"><img src="@routes.Assets.versioned("images/income.png")" alt="Income" class="nav-icon">Income</a></li>
+                <!-- <li><a href="report"><img src="@routes.Assets.versioned("images/report.png")" alt="Report" class="nav-icon">Report</a></li> -->
+            </ul>
+        </div>
+
+        <div class="income-container">
+            <h2>Income Summary</h2>
+
+            <br>
+            
+
+            <h2>Detailed Income Records</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Source</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@incomeSource</td>
+                        <td>K@income</td>
+                    </tr>
+                </tbody>
+            </table>
+        <script src="@routes.Assets.versioned("javascripts/income.js")"></script>
+    </body>
+    </html>
+}

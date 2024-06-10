@@ -1,0 +1,209 @@
+@(total: Double, expenses: Seq[models.ExpenseWithDate])(implicit request: MessagesRequestHeader, flash: Flash)
+
+@import play.api.libs.json.Json
+
+@main("Dashboard") {
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/dashboard.css")">
+        <!-- Add Chart.js library -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <nav>
+            <div id="burger-menu">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <div id="search-wrapper">
+                <input type="text" placeholder="Search...">
+                <img src="@routes.Assets.versioned("images/search.png")" alt="search.png">
+            </div>
+            <div id="date-section">
+                <p id="current-date"></p>
+            </div>
+            <div id="logout-button">
+                <a href="@routes.Login.logout()">
+                    <button>Logout</button>
+                </a>
+            </div>
+        </nav>
+
+        <div id="sidebar">
+            <div class="breadcrumb">
+                <p>HOME</p>
+            </div>
+            <ul>
+                <li><a href="dashboard"><img src="@routes.Assets.versioned("images/home.png.jpg")" alt="Dashboard" class="nav-icon"> Dashboard</a></li>
+                <li><a href="expenses"><img src="@routes.Assets.versioned("images/expenses.png")" alt="Expenses" class="nav-icon"> Expenses</a></li>
+                <li><a href="income"><img src="@routes.Assets.versioned("images/income.png")" alt="Income" class="nav-icon">Income</a></li>
+                <!--<li><a href="report"><img src="@routes.Assets.versioned("images/report.png")" alt="Report" class="nav-icon">Report</a></li> -->
+            </ul>
+        </div>
+        <div id="main-content">
+            <!-- Main content area -->
+            <h1>Welcome to Expense Tracker</h1>
+            <div class="card">
+                <div class="card-header">
+                    Total Expenses So Far This Month
+                </div>
+                <div class="card-body">
+                    <h2>K@total</h2>
+                    <!-- Button to open modal -->
+                    <button id="view-expenses-btn">View Expense Summary</button>
+                    <div class="card">
+                        <div class="card-header">
+                            Add Purchase
+                        </div>
+                        <div class="card-body">
+                            <form method="post" action="@routes.Expenses.addExpense()" id="purchase-form">
+                                @helper.CSRF.formField
+                                <div class="form-group">
+                                    <label for="item">What have you bought today?</label>
+                                    <input type="text" id="item" name="item" required>
+                                </div>
+                                <div class="form-group hidden" id="cost-group">
+                                    <label for="cost">How much each? K</label>
+                                    <input type="number" id="cost" name="cost">
+                                </div>
+                                <div class="form-group hidden" id="quantity-group">
+                                    <label for="quantity">How many?</label>
+                                    <input type="number" id="quantity" name="quantity">
+                                </div>
+                                <div class="form-group hidden" id="location-group">
+                                    <label for="location">Where?</label>
+                                    <input type="text" id="location" name="location">
+                                </div>
+                                <button type="submit" id="add-purchase-btn">Add to List</button>
+                            </form>
+                            <!--<div class="purchase-list-card">
+                                <div class="card-header">
+                                    Purchase List
+                                </div>
+                                <div class="card-body" id="purchase-list">
+                                     Purchase list items will be dynamically added here
+                                    <p id="current-date">Current Date: <span id="date"></span></p>
+                                    <p id="current-time">Current Time: <span id="time"></span></p>
+                                    <button id="clear-list-btn">Clear List</button>
+                                </div>
+                                <div class="card-footer" id="purchase-total">
+                                    Total: <span id="total-amount">0.00</span>
+                                </div>
+                            </div> -->
+                            
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="card-footer">
+                    <!-- Statistics section -->
+                    <div class="statistics-section">
+                        <h2>Expense Statistics</h2>
+                        <canvas id="expense-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        
+        
+        <!-- Modal -->
+        <div id="expenses-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span><br>
+
+                <div class="modalNav">
+                    <h2 class="expense-heading">Expense Summary</h2>
+                </div><br>
+                
+                @for(expense <- expenses) {
+                    <div >
+                        <h5 >@expense.item</h5><br>
+                        <div ></div>
+                        <div class="summary"><br>
+                            <h6>Amount: @expense.item</h6><br>
+                            
+                            <h6>Quantity: @expense.quantity</h6><br>
+                            
+                            <h6>Total Cost: @(expense.cost * expense.quantity)</h6><br>
+                        </div>
+                    </div><br>
+                    <!--<div >
+                        <h5>Sugar</h5><br>  
+                        <div class="summary"><br>
+                            <h6>Amount:</h6><br>
+                            
+                            <h6>Quantity:</h6><br>
+                            
+                            <h6>Total Cost:</h6><br>
+                        </div>
+                    </div>
+                    <div ><br>
+                        <h5>Bread</h5><br>
+                        <div class="summary"><br>
+                            <h6>Amount:</h6><br>
+                            
+                            <h6>Quantity:</h6><br>
+                            
+                            <h6>Total Cost:</h6><br>
+                        </div>
+                    </div> -->
+                }
+            </div>
+        </div>
+
+        <script src="@routes.Assets.versioned("javascripts/dashboard.js")"></script>
+
+        <script>
+            window.MyApp = {
+                'expense': '@routes.Expenses.addExpense()',
+                'graphData': '@Html(Json.toJson(expenses).toString())'
+            };
+        </script>        
+        <script>
+            // Prepare data for the chart
+            var expenses = MyApp.graphData;
+
+            var expenseData = JSON.parse(expenses);
+
+            var labels = expenseData.map(function(e) {
+                var date = new Date(e.date);
+                return date.toLocaleDateString();
+            });
+
+            var data = expenseData.map(function(e) {
+                return e.cost * e.quantity;
+            });
+
+            var chartData = {
+                labels: labels,
+                datasets: [{
+                    label: 'Expenses',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1,
+                    data: data
+                }]
+            };
+
+            var ctx = document.getElementById('expense-chart').getContext('2d');
+            var expenseChart = new Chart(ctx, {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html>
+}

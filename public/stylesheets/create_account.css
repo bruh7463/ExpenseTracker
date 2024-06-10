@@ -1,0 +1,61 @@
+/* create_account.css */
+
+/* Style for the create account container */
+.create-account-container {
+   
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    margin-top: 40px;
+}
+
+/* Style for form elements */
+.create-account-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333; /* Darker text color */
+}
+
+.create-account-container label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555; /* Slightly darker text color */
+}
+
+.create-account-container input[type="text"],
+.create-account-container input[type="password"] {
+    width: 70%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd; /* Lighter border color */
+    border-radius: 5px;
+}
+
+.create-account-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition */
+}
+
+.create-account-container button:hover {
+    background-color: #0056b3;
+}
+
+/* Style for error message */
+#error-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px; /* Add some spacing above the error message */
+}
+body{
+    background-color: #555;
+}

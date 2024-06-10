@@ -1,0 +1,43 @@
+@()(implicit request: RequestHeader)
+
+@main("Create Account") {
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create Account</title>
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/create_account.css")">
+    </head>
+    <body>
+        <div class="create-account-container">
+            <h2>Create Account</h2>
+            <form method="post" action="@routes.CreateAccount.createUser()" id="create-account-form">
+                @helper.CSRF.formField
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" placeholder="Enter your username" required>
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required>
+
+                <label for="security-question">Security Question</label>
+                <input type="text" name="securityQuestion" id="security-question" placeholder="Enter a security question" required>
+
+                <label for="security-answer">Security Answer</label>
+                <input type="text" name="securityAnswer" id="security-answer" placeholder="Enter your answer" required>
+
+                <label for="income">Income</label>
+                <input type="text" name="income" id="income" placeholder="Enter your income" required>
+
+                <label for="income-source">Income Source</label>
+                <input type="text" name="incomeSource" id="income-source" placeholder="Enter your income source" required>
+
+                <button type="submit">Create Account</button>
+            </form>
+            <p id="error-message"></p>
+        </div>
+
+        <script src="@routes.Assets.versioned("javascripts/create_account.js")"></script>
+    </body>
+    </html>
+}

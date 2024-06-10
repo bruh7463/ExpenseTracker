@@ -1,0 +1,32 @@
+@()(implicit request: RequestHeader)
+
+@main("Welcome") {
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/login.css")">
+    </head>
+    <body>
+        
+        
+        <div class="login-container">
+            <h2>Login</h2>
+            <form method="post" action="@routes.Login.validateUser()" id="login-form">
+                @helper.CSRF.formField
+                <input type="text" name="username" id="username" placeholder="Username" required>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <br>
+                <button type="submit">Login</button><br><br>
+                <a href="forget_password" class="forgot-password">Forgot Password?</a><br><br>
+                <span class="create-account">Don't have an account? <a href="create_account" class="create-account-link">Create account</a></span>
+            </form>
+            <p id="error-message"></p>
+        </div>
+        <script src="@routes.Assets.versioned("javascripts/login.js")"></script>
+    </body>
+    </html>
+}
