@@ -1,3 +1,5 @@
+//This model was a test model and does not help with accessing the database
+
 package models
 
 import collection.mutable
