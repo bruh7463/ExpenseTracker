@@ -1,3 +1,5 @@
+//This module is responsible for keeping track of the total expenses of each user in the database and resets the total on the dashboard page when a new month begins 
+
 package modules
 
 import com.google.inject.AbstractModule
