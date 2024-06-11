@@ -1,3 +1,5 @@
+//This is where everything to do with the forget password page is done
+
 package controllers
 
 import javax.inject._
