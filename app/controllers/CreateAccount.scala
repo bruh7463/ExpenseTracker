@@ -1,3 +1,5 @@
+//This is where everything to do with the create account page is done
+
 package controllers
 
 import javax.inject._
@@ -16,6 +18,7 @@ class CreateAccount @Inject()(cc: MessagesControllerComponents)(dbapi: DBApi)(im
 
   private val db = dbapi.database("default")
 
+  // This method connects with the database and uses a sql query to insert user info into the database
   def createUser(user: User): Future[Option[Long]] = Future {
     db.withConnection { implicit connection =>
       SQL"""
@@ -26,6 +29,7 @@ class CreateAccount @Inject()(cc: MessagesControllerComponents)(dbapi: DBApi)(im
   }
 
 
+  //This method displays the create_account page on the browser
   def create_account() = Action { implicit request: Request[AnyContent] =>
     Ok(views.html.create_account())
   }
@@ -49,6 +53,7 @@ class CreateAccount @Inject()(cc: MessagesControllerComponents)(dbapi: DBApi)(im
     }.getOrElse(Redirect(routes.CreateAccount.create_account()))
   }*/
 
+  //This method maps the data entered from the create_account form and sends it to the createUser method
   def createUser: Action[AnyContent] = Action.async { implicit request: MessagesRequest[AnyContent] =>
     val formData = request.body.asFormUrlEncoded
     formData match {
